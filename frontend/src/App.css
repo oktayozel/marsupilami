@@ -1,0 +1,453 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-primary: #0f0f0f;
+  --bg-secondary: #1a1a1a;
+  --bg-card: #242424;
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --accent-yes: #22c55e;
+  --accent-yes-hover: #16a34a;
+  --accent-no: #ef4444;
+  --accent-no-hover: #dc2626;
+  --accent-primary: #6366f1;
+  --accent-primary-hover: #4f46e5;
+  --border: #333;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+header {
+  background: var(--bg-secondary);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-content h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.header-content .tagline {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.network-switcher {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.account-info {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.account-info .network {
+  background: var(--accent-primary);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.account-info .address {
+  font-family: monospace;
+  font-size: 0.875rem;
+}
+
+.header-error {
+  color: var(--accent-no);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* Main */
+main {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.actions {
+  margin-bottom: 2rem;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-small {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+.btn-primary {
+  background: var(--accent-primary);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-primary-hover);
+}
+
+.btn-secondary {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--border);
+}
+
+.btn-yes {
+  background: var(--accent-yes);
+  color: white;
+}
+
+.btn-yes:hover:not(:disabled) {
+  background: var(--accent-yes-hover);
+}
+
+.btn-no {
+  background: var(--accent-no);
+  color: white;
+}
+
+.btn-no:hover:not(:disabled) {
+  background: var(--accent-no-hover);
+}
+
+.btn-claim {
+  background: var(--accent-primary);
+  color: white;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.btn-create {
+  background: var(--accent-primary);
+  color: white;
+}
+
+/* Cards */
+.card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+}
+
+.card h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+/* Markets Grid */
+.markets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.no-markets {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-secondary);
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-secondary);
+}
+
+.error-message {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--accent-no);
+  border-radius: 8px;
+  color: var(--accent-no);
+}
+
+/* Market Card */
+.market-status {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-open {
+  background: rgba(34, 197, 94, 0.2);
+  color: var(--accent-yes);
+}
+
+.status-closed {
+  background: rgba(234, 179, 8, 0.2);
+  color: #eab308;
+}
+
+.status-resolved {
+  background: rgba(99, 102, 241, 0.2);
+  color: var(--accent-primary);
+}
+
+.outcome-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--bg-secondary);
+}
+
+.market-info {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.market-info p {
+  margin-bottom: 0.25rem;
+}
+
+/* Odds Display */
+.odds-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.odds-box {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.odds-box.yes {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.odds-box.no {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.odds-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.odds-box.yes .odds-label {
+  color: var(--accent-yes);
+}
+
+.odds-box.no .odds-label {
+  color: var(--accent-no);
+}
+
+.odds-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.odds-pool {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+/* Betting Section */
+.betting-section {
+  margin-bottom: 1rem;
+}
+
+.betting-section input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.betting-section input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.bet-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.bet-buttons .btn {
+  flex: 1;
+}
+
+/* Position Section */
+.position-section {
+  background: var(--bg-secondary);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.position-section h3 {
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.position-section p {
+  font-size: 0.875rem;
+}
+
+.claimed {
+  color: var(--accent-yes);
+  font-weight: 600;
+}
+
+.market-address {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 1rem;
+  text-align: right;
+}
+
+/* Create Market Form */
+.create-market-form {
+  max-width: 500px;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+.error {
+  color: var(--accent-no);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* Footer */
+footer {
+  background: var(--bg-secondary);
+  padding: 1.5rem;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+footer a {
+  color: var(--accent-primary);
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .header-actions {
+    flex-direction: column;
+  }
+
+  .markets-grid {
+    grid-template-columns: 1fr;
+  }
+
+  main {
+    padding: 1rem;
+  }
+}
