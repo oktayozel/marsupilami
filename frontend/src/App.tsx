@@ -3,6 +3,8 @@ import { Header } from "./components/Header";
 import { Market } from "./components/Market";
 import { CreateMarket } from "./components/CreateMarket";
 import { useMarkets } from "./hooks/useMarket";
+import spottedPattern from "./assets/marsu/spotted-pattern.jpeg";
+import logo from "./assets/marsu/logo.jpeg";
 import "./App.css";
 
 const queryClient = new QueryClient();
@@ -11,14 +13,19 @@ function MarketList() {
   const { data: markets, isLoading, error } = useMarkets();
 
   if (isLoading) {
-    return <div className="loading">Loading markets...</div>;
+    return (
+      <div className="loading">
+        <img src={logo} alt="" className="loading-icon" />
+        <span>Loading markets...</span>
+      </div>
+    );
   }
 
   if (error) {
     return (
       <div className="error-message">
-        Error loading markets. Make sure you're connected to the right network
-        and contracts are deployed.
+        <p>Error loading markets.</p>
+        <p className="error-hint">Make sure you're connected to the right network and contracts are deployed.</p>
       </div>
     );
   }
@@ -26,7 +33,9 @@ function MarketList() {
   if (!markets || markets.length === 0) {
     return (
       <div className="no-markets">
-        <p>No markets yet. Create one to get started!</p>
+        <img src={logo} alt="" className="empty-icon" />
+        <p>No markets yet.</p>
+        <p className="hint">Create one to get started!</p>
       </div>
     );
   }
@@ -52,13 +61,19 @@ function App() {
           <MarketList />
         </main>
         <footer>
-          <p>
-            Built on{" "}
-            <a href="https://oasisprotocol.org/sapphire" target="_blank">
-              Oasis Sapphire
-            </a>{" "}
-            - Your bets are private
-          </p>
+          <div
+            className="footer-pattern"
+            style={{ backgroundImage: `url(${spottedPattern})` }}
+          />
+          <div className="footer-content">
+            <p>
+              Built on{" "}
+              <a href="https://oasisprotocol.org/sapphire" target="_blank" rel="noopener noreferrer">
+                Oasis Sapphire
+              </a>
+            </p>
+            <p className="footer-tagline">Your bets are private. Your wins are yours.</p>
+          </div>
         </footer>
       </div>
     </QueryClientProvider>
