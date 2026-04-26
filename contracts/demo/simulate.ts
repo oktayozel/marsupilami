@@ -101,6 +101,7 @@ async function main() {
     startedAt: new Date().toISOString(),
     totalBettors: NUM_ACCOUNTS,
     durationMin: DURATION_MIN,
+    oddsUpdateMin: ODDS_UPDATE_MIN,
     marketFactory: addresses.marketFactory,
   }, null, 2));
   console.log(`      Demo state written → frontend/public/demo-state.json`);

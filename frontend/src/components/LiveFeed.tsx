@@ -29,6 +29,8 @@ export function LiveFeed() {
   const totalSec = demo.durationMin * 60;
   const progress = Math.min(100, Math.round((elapsed / totalSec) * 100));
   const isActive = elapsed < totalSec;
+  const oddsUpdateSec = (demo.oddsUpdateMin ?? 2) * 60;
+  const oddsUnknown = elapsed < oddsUpdateSec;
 
   return (
     <div className="live-feed">
@@ -61,18 +63,30 @@ export function LiveFeed() {
         )}
 
         <div className="live-odds-bar">
-          <div className="live-odds-side live-odds-side-yes">
-            <span className="live-odds-pct">{yesPct}% YES</span>
-            <span className="live-odds-detail">{yesPool.toFixed(3)} ETH · {yesMult}x payout</span>
-          </div>
-          <div className="live-odds-track">
-            <div className="live-odds-fill-yes" style={{ width: `${yesPct}%` }} />
-            <div className="live-odds-fill-no"  style={{ width: `${noPct}%` }} />
-          </div>
-          <div className="live-odds-side live-odds-side-no">
-            <span className="live-odds-pct">{noPct}% NO</span>
-            <span className="live-odds-detail">{noPool.toFixed(3)} ETH · {noMult}x payout</span>
-          </div>
+          {oddsUnknown ? (
+            <div className="live-odds-unknown">
+              <span className="live-odds-pct">??? YES</span>
+              <div className="live-odds-track">
+                <div className="live-odds-fill-unknown" style={{ width: "100%" }} />
+              </div>
+              <span className="live-odds-pct">??? NO</span>
+            </div>
+          ) : (
+            <>
+              <div className="live-odds-side live-odds-side-yes">
+                <span className="live-odds-pct">{yesPct}% YES</span>
+                <span className="live-odds-detail">{yesPool.toFixed(3)} ETH · {yesMult}x payout</span>
+              </div>
+              <div className="live-odds-track">
+                <div className="live-odds-fill-yes" style={{ width: `${yesPct}%` }} />
+                <div className="live-odds-fill-no"  style={{ width: `${noPct}%` }} />
+              </div>
+              <div className="live-odds-side live-odds-side-no">
+                <span className="live-odds-pct">{noPct}% NO</span>
+                <span className="live-odds-detail">{noPool.toFixed(3)} ETH · {noMult}x payout</span>
+              </div>
+            </>
+          )}
         </div>
         <p className="live-privacy-note">
           🔒 Bet choices are encrypted — only amounts are visible on-chain

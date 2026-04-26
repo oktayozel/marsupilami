@@ -11,6 +11,7 @@ export interface DemoState {
   startedAt: string;
   totalBettors: number;
   durationMin: number;
+  oddsUpdateMin: number;
   marketFactory: string;
 }
 

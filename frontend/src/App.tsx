@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Header } from "./components/Header";
 import { Market } from "./components/Market";
 import { CreateMarket } from "./components/CreateMarket";
-import { LiveFeed } from "./components/LiveFeed";
 import { useMarkets } from "./hooks/useMarket";
+import { DemoPage } from "./pages/DemoPage";
 import spottedPattern from "./assets/marsu/spotted-pattern.jpeg";
 import logo from "./assets/marsu/logo.jpeg";
 import "./App.css";
@@ -84,7 +85,6 @@ function MarketsTab() {
 
   return (
     <div className="markets-tab">
-      <LiveFeed />
       <div className="category-filters">
         {CATEGORIES.map((category) => (
           <button
@@ -108,6 +108,10 @@ function App() {
   const [activeTab, setActiveTab] = useState<TabId>("markets");
 
   return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/demo" element={<DemoPage />} />
+        <Route path="*" element={
     <QueryClientProvider client={queryClient}>
       <div className="app">
         <Header />
@@ -151,6 +155,9 @@ function App() {
         </footer>
       </div>
     </QueryClientProvider>
+        } />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
