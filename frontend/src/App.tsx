@@ -6,7 +6,6 @@ import { Market } from "./components/Market";
 import { CreateMarket } from "./components/CreateMarket";
 import { useMarkets } from "./hooks/useMarket";
 import { DemoPage } from "./pages/DemoPage";
-import spottedPattern from "./assets/marsu/spotted-pattern.jpeg";
 import logo from "./assets/marsu/logo.jpeg";
 import "./App.css";
 
@@ -137,22 +136,6 @@ function App() {
           {activeTab === "markets" && <MarketsTab />}
           {activeTab === "create" && <CreateMarket onSuccess={() => setActiveTab("markets")} />}
         </main>
-
-        <footer>
-          <div
-            className="footer-pattern"
-            style={{ backgroundImage: `url(${spottedPattern})` }}
-          />
-          <div className="footer-content">
-            <p>
-              Built on{" "}
-              <a href="https://oasisprotocol.org/sapphire" target="_blank" rel="noopener noreferrer">
-                Oasis Sapphire
-              </a>
-            </p>
-            <p className="footer-tagline">Your bets are private. Your wins are yours.</p>
-          </div>
-        </footer>
       </div>
     </QueryClientProvider>
         } />
