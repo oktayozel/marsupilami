@@ -23,19 +23,23 @@ contract MarketFactory {
     /// @notice Create a new prediction market
     /// @param question The question to predict
     /// @param bettingDuration How long betting is open (in seconds)
+    /// @param oracles Array of exactly 3 oracle addresses for this market
     function createMarket(
         string calldata question,
-        uint256 bettingDuration
+        uint256 bettingDuration,
+        address[] calldata oracles
     ) external returns (address) {
         require(bettingDuration >= 1 hours, "Duration too short");
         require(bettingDuration <= 30 days, "Duration too long");
         require(bytes(question).length > 0, "Empty question");
         require(bytes(question).length <= 500, "Question too long");
+        require(oracles.length == 3, "Must provide exactly 3 oracles");
 
         PredictionMarket market = new PredictionMarket(
             address(oracleRegistry),
             question,
-            bettingDuration
+            bettingDuration,
+            oracles
         );
 
         allMarkets.push(address(market));

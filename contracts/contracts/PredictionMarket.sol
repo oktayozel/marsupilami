@@ -58,6 +58,10 @@ contract PredictionMarket {
     uint256 public noVotes;
     uint256 public invalidVotes;
 
+    // Per-market oracle whitelist
+    address[] public marketOracles;
+    mapping(address => bool) public isMarketOracle;
+
     // ============ Events ============
     event BetPlaced(address indexed user, uint256 amount);  // Note: choice NOT emitted
     event OddsUpdated(uint256 yesPool, uint256 noPool, uint256 timestamp);
@@ -87,8 +91,11 @@ contract PredictionMarket {
     constructor(
         address _oracleRegistry,
         string memory _question,
-        uint256 _bettingDuration
+        uint256 _bettingDuration,
+        address[] memory _oracles
     ) {
+        require(_oracles.length == 3, "Must have exactly 3 oracles");
+
         oracleRegistry = OracleRegistry(_oracleRegistry);
         creator = msg.sender;
         question = _question;
@@ -96,6 +103,14 @@ contract PredictionMarket {
         resolutionDeadline = bettingDeadline + RESOLUTION_WINDOW;
         state = MarketState.OPEN;
         lastOddsUpdate = block.timestamp;
+
+        // Store market-specific oracles
+        for (uint i = 0; i < 3; i++) {
+            require(oracleRegistry.isOracle(_oracles[i]), "Oracle not registered");
+            require(!isMarketOracle[_oracles[i]], "Duplicate oracle");
+            marketOracles.push(_oracles[i]);
+            isMarketOracle[_oracles[i]] = true;
+        }
     }
 
     // ============ Core Betting Functions ============
@@ -175,7 +190,7 @@ contract PredictionMarket {
     /// @notice Oracle submits their resolution vote
     /// @param _outcome The oracle's vote (YES=1, NO=2, INVALID=3)
     function submitResolution(Outcome _outcome) external onlyClosed {
-        require(oracleRegistry.isOracle(msg.sender), "Not an oracle");
+        require(isMarketOracle[msg.sender], "Not an oracle for this market");
         require(!oracleVotes[msg.sender].hasVoted, "Already voted");
         require(_outcome != Outcome.UNRESOLVED, "Invalid vote");
         require(block.timestamp < resolutionDeadline, "Resolution window closed");
@@ -199,21 +214,18 @@ contract PredictionMarket {
     /// @notice Check if consensus reached and resolve
     function _maybeResolve() internal {
         uint256 totalVotes = votedOracles.length;
-        uint256 required = oracleRegistry.getOracleCount();
 
-        // Need at least 3 oracles or all registered oracles
-        if (totalVotes < 3 && totalVotes < required) {
+        // Need at least 2 votes from the 3 market oracles
+        if (totalVotes < 2) {
             return;
         }
 
-        // Check for 2/3 majority
-        uint256 majorityThreshold = (totalVotes * 2) / 3;
-
-        if (yesVotes > majorityThreshold) {
+        // 2 out of 3 = majority for this market
+        if (yesVotes >= 2) {
             _resolve(Outcome.YES);
-        } else if (noVotes > majorityThreshold) {
+        } else if (noVotes >= 2) {
             _resolve(Outcome.NO);
-        } else if (invalidVotes > majorityThreshold) {
+        } else if (invalidVotes >= 2) {
             _resolve(Outcome.INVALID);
         }
         // Otherwise, wait for more votes
@@ -332,5 +344,10 @@ contract PredictionMarket {
             publicNoPool,
             totalDeposits
         );
+    }
+
+    /// @notice Get the market's designated oracles
+    function getMarketOracles() external view returns (address[] memory) {
+        return marketOracles;
     }
 }
