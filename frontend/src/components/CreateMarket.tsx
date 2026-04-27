@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useCreateMarket } from "../hooks/useMarket";
+import { useState, useEffect } from "react";
+import { useCreateMarket, useRegisteredOracles } from "../hooks/useMarket";
 import { CATEGORIES } from "../App";
 import type { CategoryId } from "../App";
 import createMarketIcon from "../assets/marsu/create-market.jpeg";
@@ -15,8 +15,29 @@ export function CreateMarket({ onSuccess }: CreateMarketProps) {
   const [category, setCategory] = useState<CategoryId>("other");
   const [durationDays, setDurationDays] = useState(7);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [selectedOracles, setSelectedOracles] = useState<string[]>([]);
 
   const createMarket = useCreateMarket();
+  const { data: registeredOracles, isLoading: oraclesLoading } = useRegisteredOracles();
+
+  // Auto-select first 3 oracles when they load
+  useEffect(() => {
+    if (registeredOracles && registeredOracles.length >= 3 && selectedOracles.length === 0) {
+      setSelectedOracles(registeredOracles.slice(0, 3).map(o => o.address));
+    }
+  }, [registeredOracles, selectedOracles.length]);
+
+  const toggleOracle = (address: string) => {
+    setSelectedOracles(prev => {
+      if (prev.includes(address)) {
+        return prev.filter(a => a !== address);
+      }
+      if (prev.length < 3) {
+        return [...prev, address];
+      }
+      return prev;
+    });
+  };
 
   // Filter out "all" from selectable categories
   const selectableCategories = CATEGORIES.filter(c => c.id !== "all");
@@ -24,16 +45,18 @@ export function CreateMarket({ onSuccess }: CreateMarketProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!question.trim()) return;
+    if (selectedOracles.length !== 3) return;
 
     // Prepend category tag to question
     const fullQuestion = `[${category}] ${question.trim()}`;
 
     createMarket.mutate(
-      { question: fullQuestion, durationDays },
+      { question: fullQuestion, durationDays, oracles: selectedOracles },
       {
         onSuccess: () => {
           setQuestion("");
           setCategory("other");
+          setSelectedOracles([]);
           setShowSuccess(true);
           setTimeout(() => {
             setShowSuccess(false);
@@ -115,6 +138,35 @@ export function CreateMarket({ onSuccess }: CreateMarketProps) {
             </div>
           </div>
 
+          <div className="form-group">
+            <label>Oracles ({selectedOracles.length}/3 selected)</label>
+            {oraclesLoading ? (
+              <p className="form-hint">Loading oracles...</p>
+            ) : !registeredOracles || registeredOracles.length < 3 ? (
+              <p className="error">Not enough registered oracles. Need at least 3.</p>
+            ) : (
+              <div className="oracle-select">
+                {registeredOracles.map((oracle) => (
+                  <button
+                    key={oracle.address}
+                    type="button"
+                    className={`oracle-option ${selectedOracles.includes(oracle.address) ? "selected" : ""}`}
+                    onClick={() => toggleOracle(oracle.address)}
+                    disabled={!selectedOracles.includes(oracle.address) && selectedOracles.length >= 3}
+                  >
+                    <span className="oracle-address">
+                      {oracle.address.slice(0, 6)}...{oracle.address.slice(-4)}
+                    </span>
+                    <span className="oracle-stats">
+                      {oracle.stake} ROSE · {oracle.successfulResolutions} wins
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+            <p className="form-hint">Select 3 oracles to resolve this market</p>
+          </div>
+
           <div className="form-preview">
             <h4>Preview</h4>
             <div className="preview-card">
@@ -130,7 +182,7 @@ export function CreateMarket({ onSuccess }: CreateMarketProps) {
           <div className="form-actions">
             <button
               type="submit"
-              disabled={createMarket.isPending || !question.trim()}
+              disabled={createMarket.isPending || !question.trim() || selectedOracles.length !== 3}
               className="btn btn-primary btn-large"
             >
               {createMarket.isPending ? (

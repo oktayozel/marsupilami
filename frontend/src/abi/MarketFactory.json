@@ -71,6 +71,11 @@
         "internalType": "uint256",
         "name": "bettingDuration",
         "type": "uint256"
+      },
+      {
+        "internalType": "address[]",
+        "name": "oracles",
+        "type": "address[]"
       }
     ],
     "name": "createMarket",

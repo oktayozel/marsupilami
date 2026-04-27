@@ -858,6 +858,56 @@ main {
   font-weight: 600;
 }
 
+/* Oracle Selection */
+.oracle-select {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.oracle-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0.6rem;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.oracle-option:hover:not(:disabled) {
+  border-color: var(--accent-primary);
+}
+
+.oracle-option.selected {
+  border-color: var(--accent-primary);
+  background: rgba(20, 184, 166, 0.15);
+  color: var(--text-primary);
+}
+
+.oracle-option:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.oracle-address {
+  font-family: monospace;
+  color: var(--accent-primary);
+}
+
+.oracle-option.selected .oracle-address {
+  color: var(--accent-primary);
+}
+
+.oracle-stats {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+}
+
 /* Form Preview */
 .form-preview {
   margin-top: 0.75rem;

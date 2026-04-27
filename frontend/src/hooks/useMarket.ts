@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import { getSigner, getProvider } from "../utils/sapphire";
 import PredictionMarketABI from "../abi/PredictionMarket.json";
 import MarketFactoryABI from "../abi/MarketFactory.json";
+import OracleRegistryABI from "../abi/OracleRegistry.json";
 import { getContracts } from "../utils/config";
 
 export interface DemoState {
@@ -207,11 +208,59 @@ export function useClaim(marketAddress: string) {
   });
 }
 
+export interface OracleInfo {
+  address: string;
+  stake: string;
+  successfulResolutions: number;
+  failedResolutions: number;
+  isActive: boolean;
+}
+
+export function useRegisteredOracles() {
+  return useQuery({
+    queryKey: ["oracles"],
+    queryFn: async (): Promise<OracleInfo[]> => {
+      const provider = new ethers.JsonRpcProvider("http://localhost:8545");
+      const contracts = getContracts(BigInt(31337));
+
+      if (!contracts.oracleRegistry) {
+        return [];
+      }
+
+      const registry = new ethers.Contract(
+        contracts.oracleRegistry,
+        OracleRegistryABI,
+        provider
+      );
+
+      const count = await registry.getOracleCount();
+      const oracles: OracleInfo[] = [];
+
+      for (let i = 0; i < count; i++) {
+        const address = await registry.oracleList(i);
+        const info = await registry.oracles(address);
+        if (info.isActive) {
+          oracles.push({
+            address,
+            stake: ethers.formatEther(info.stake),
+            successfulResolutions: Number(info.successfulResolutions),
+            failedResolutions: Number(info.failedResolutions),
+            isActive: info.isActive,
+          });
+        }
+      }
+
+      return oracles;
+    },
+    refetchInterval: 10000,
+  });
+}
+
 export function useCreateMarket() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ question, durationDays }: { question: string; durationDays: number }) => {
+    mutationFn: async ({ question, durationDays, oracles }: { question: string; durationDays: number; oracles: string[] }) => {
       const signer = await getSigner();
       const network = await signer.provider!.getNetwork();
       const contracts = getContracts(network.chainId);
@@ -223,7 +272,7 @@ export function useCreateMarket() {
       );
 
       const durationSeconds = durationDays * 24 * 60 * 60;
-      const tx = await factory.createMarket(question, durationSeconds);
+      const tx = await factory.createMarket(question, durationSeconds, oracles);
       return tx.wait();
     },
     onSuccess: () => {
