@@ -14,8 +14,11 @@ export function CreateMarket({ onSuccess }: CreateMarketProps) {
   const [question, setQuestion] = useState("");
   const [category, setCategory] = useState<CategoryId>("other");
   const [durationDays, setDurationDays] = useState(7);
+  const [customDuration, setCustomDuration] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [selectedOracles, setSelectedOracles] = useState<string[]>([]);
+
+  const presetDurations = [1, 3, 7, 14, 30];
 
   const createMarket = useCreateMarket();
   const { data: registeredOracles, isLoading: oraclesLoading } = useRegisteredOracles();
@@ -125,17 +128,40 @@ export function CreateMarket({ onSuccess }: CreateMarketProps) {
           <div className="form-group">
             <label>Betting Duration</label>
             <div className="duration-options">
-              {[1, 3, 7, 14, 30].map((days) => (
+              {presetDurations.map((days) => (
                 <button
                   key={days}
                   type="button"
-                  className={`duration-option ${durationDays === days ? "selected" : ""}`}
-                  onClick={() => setDurationDays(days)}
+                  className={`duration-option ${!customDuration && durationDays === days ? "selected" : ""}`}
+                  onClick={() => {
+                    setCustomDuration(false);
+                    setDurationDays(days);
+                  }}
                 >
                   {days} {days === 1 ? "day" : "days"}
                 </button>
               ))}
+              <button
+                type="button"
+                className={`duration-option ${customDuration ? "selected" : ""}`}
+                onClick={() => setCustomDuration(true)}
+              >
+                Custom
+              </button>
             </div>
+            {customDuration && (
+              <div className="custom-duration">
+                <input
+                  type="number"
+                  min={1}
+                  max={30}
+                  value={durationDays}
+                  onChange={(e) => setDurationDays(Math.max(1, Math.min(30, parseInt(e.target.value) || 1)))}
+                  className="custom-duration-input"
+                />
+                <span className="custom-duration-label">days (1-30)</span>
+              </div>
+            )}
           </div>
 
           <div className="form-group">

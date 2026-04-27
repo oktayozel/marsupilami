@@ -858,6 +858,34 @@ main {
   font-weight: 600;
 }
 
+.custom-duration {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.custom-duration-input {
+  width: 70px;
+  padding: 0.4rem 0.6rem;
+  border: 2px solid var(--accent-gold);
+  border-radius: 6px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.custom-duration-input:focus {
+  outline: none;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+.custom-duration-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
 /* Oracle Selection */
 .oracle-select {
   display: flex;
