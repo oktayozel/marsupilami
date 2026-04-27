@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { connectWallet, getProvider, switchToNetwork, HARDHAT_LOCAL, SAPPHIRE_TESTNET } from "../utils/sapphire";
+import { connectWallet, getProvider } from "../utils/sapphire";
 import logo from "../assets/marsu/logo.jpeg";
 import privacyShield from "../assets/marsu/privacy-shield.jpeg";
 import connectWalletIcon from "../assets/marsu/connect-wallet.jpeg";
@@ -66,22 +66,6 @@ export function Header() {
     }
   };
 
-  const handleSwitchToLocal = async () => {
-    try {
-      await switchToNetwork(HARDHAT_LOCAL);
-    } catch (err) {
-      setError((err as Error).message);
-    }
-  };
-
-  const handleSwitchToTestnet = async () => {
-    try {
-      await switchToNetwork(SAPPHIRE_TESTNET);
-    } catch (err) {
-      setError((err as Error).message);
-    }
-  };
-
   const handleDisconnect = () => {
     localStorage.setItem(DISCONNECTED_KEY, "true");
     setAccount(null);
@@ -112,25 +96,15 @@ export function Header() {
 
       <div className="header-actions">
         {account ? (
-          <>
-            <div className="network-switcher">
-              <button onClick={handleSwitchToLocal} className="btn btn-small btn-secondary">
-                Local
-              </button>
-              <button onClick={handleSwitchToTestnet} className="btn btn-small btn-secondary">
-                Testnet
-              </button>
-            </div>
-            <div className="account-info">
-              <span className="network">{getNetworkName()}</span>
-              <span className="address">
-                {account.slice(0, 6)}...{account.slice(-4)}
-              </span>
-              <button onClick={handleDisconnect} className="btn btn-small btn-disconnect">
-                Disconnect
-              </button>
-            </div>
-          </>
+          <div className="account-info">
+            <span className="network">{getNetworkName()}</span>
+            <span className="address">
+              {account.slice(0, 6)}...{account.slice(-4)}
+            </span>
+            <button onClick={handleDisconnect} className="btn btn-small btn-disconnect">
+              Disconnect
+            </button>
+          </div>
         ) : (
           <button onClick={handleConnect} className="btn btn-primary connect-wallet-btn">
             <img src={connectWalletIcon} alt="" className="btn-icon" />
