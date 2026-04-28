@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { ethers } from "ethers";
-import { getSigner, getProvider } from "../utils/sapphire";
+import { getSigner } from "../utils/sapphire";
 import PredictionMarketABI from "../abi/PredictionMarket.json";
 import MarketFactoryABI from "../abi/MarketFactory.json";
 import OracleRegistryABI from "../abi/OracleRegistry.json";
@@ -50,12 +50,15 @@ export function useLiveFeed(marketAddress: string | undefined) {
       const fromBlock = Math.max(0, currentBlock - 2000);
       const events = await contract.queryFilter(contract.filters.BetPlaced(), fromBlock);
       return events
-        .map(e => ({
-          user: e.args[0] as string,
-          amount: ethers.formatEther(e.args[1] as bigint),
-          blockNumber: e.blockNumber,
-          txHash: e.transactionHash,
-        }))
+        .map(e => {
+          const eventLog = e as ethers.EventLog;
+          return {
+            user: eventLog.args[0] as string,
+            amount: ethers.formatEther(eventLog.args[1] as bigint),
+            blockNumber: e.blockNumber,
+            txHash: e.transactionHash,
+          };
+        })
         .reverse();
     },
     refetchInterval: 2000,
