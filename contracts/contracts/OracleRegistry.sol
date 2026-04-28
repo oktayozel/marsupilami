@@ -4,7 +4,7 @@ pragma solidity ^0.8.24;
 contract OracleRegistry {
 
     // ============ Constants ============
-    uint256 public constant MIN_STAKE = 100 ether;        // 100 ROSE minimum
+    uint256 public immutable MIN_STAKE;                   // Minimum stake to register
     uint256 public constant SLASH_PERCENT = 50;           // 50% slash for wrong vote
     uint256 public constant MIN_ORACLES_FOR_RESOLUTION = 3;
 
@@ -18,6 +18,11 @@ contract OracleRegistry {
 
     mapping(address => Oracle) public oracles;
     address[] public oracleList;
+
+    // ============ Constructor ============
+    constructor(uint256 _minStake) {
+        MIN_STAKE = _minStake;
+    }
 
     // ============ Events ============
     event OracleRegistered(address indexed oracle, uint256 stake);

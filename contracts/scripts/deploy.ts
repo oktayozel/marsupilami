@@ -1,20 +1,28 @@
 import { ethers } from "hardhat";
 import * as fs from "fs";
 
-const MIN_STAKE = ethers.parseEther("100"); // 100 ROSE minimum stake
-const NUM_ORACLES = 5;
-
 async function main() {
   const signers = await ethers.getSigners();
   const deployer = signers[0];
+
+  const network = await ethers.provider.getNetwork();
+  const isLocal = network.chainId === BigInt(31337);
+
+  // Use different settings for local vs testnet
+  // Testnet faucet only gives 150 ROSE, so we need lower stakes
+  const MIN_STAKE = isLocal
+    ? ethers.parseEther("100")  // 100 ROSE for local
+    : ethers.parseEther("10");  // 10 ROSE for testnet (faucet limited)
+  const NUM_ORACLES = isLocal ? 5 : 3; // 3 is minimum needed for markets
 
   console.log("Deploying contracts with:", deployer.address);
   console.log("Balance:", ethers.formatEther(await ethers.provider.getBalance(deployer.address)));
 
   // 1. Deploy OracleRegistry
   console.log("\nDeploying OracleRegistry...");
+  console.log("MIN_STAKE:", ethers.formatEther(MIN_STAKE), "ROSE");
   const OracleRegistry = await ethers.getContractFactory("OracleRegistry");
-  const oracleRegistry = await OracleRegistry.deploy();
+  const oracleRegistry = await OracleRegistry.deploy(MIN_STAKE);
   await oracleRegistry.waitForDeployment();
   const oracleRegistryAddress = await oracleRegistry.getAddress();
   console.log("OracleRegistry deployed to:", oracleRegistryAddress);
@@ -33,8 +41,6 @@ async function main() {
   console.log("========================================");
 
   const oracleAddresses: string[] = [];
-  const network = await ethers.provider.getNetwork();
-  const isLocal = network.chainId === BigInt(31337);
 
   if (isLocal) {
     // Local network: use different signers for each oracle

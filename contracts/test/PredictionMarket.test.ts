@@ -25,7 +25,7 @@ describe("Prediction Market System", function () {
 
     // Deploy OracleRegistry
     const OracleRegistryFactory = await ethers.getContractFactory("OracleRegistry");
-    oracleRegistry = await OracleRegistryFactory.deploy();
+    oracleRegistry = await OracleRegistryFactory.deploy(MIN_STAKE);
 
     // Deploy MarketFactory
     const MarketFactoryFactory = await ethers.getContractFactory("MarketFactory");
