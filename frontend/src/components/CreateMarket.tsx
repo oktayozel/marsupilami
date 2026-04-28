@@ -13,12 +13,20 @@ interface CreateMarketProps {
 export function CreateMarket({ onSuccess }: CreateMarketProps) {
   const [question, setQuestion] = useState("");
   const [category, setCategory] = useState<CategoryId>("other");
-  const [durationDays, setDurationDays] = useState(7);
+  const [durationMinutes, setDurationMinutes] = useState(10080); // 7 days in minutes
   const [customDuration, setCustomDuration] = useState(false);
+  const [customMinutes, setCustomMinutes] = useState(60);
   const [showSuccess, setShowSuccess] = useState(false);
   const [selectedOracles, setSelectedOracles] = useState<string[]>([]);
 
-  const presetDurations = [1, 3, 7, 14, 30];
+  // Preset durations in minutes
+  const presetDurations = [
+    { label: "1 day", minutes: 1440 },
+    { label: "3 days", minutes: 4320 },
+    { label: "7 days", minutes: 10080 },
+    { label: "14 days", minutes: 20160 },
+    { label: "30 days", minutes: 43200 },
+  ];
 
   const createMarket = useCreateMarket();
   const { data: registeredOracles, isLoading: oraclesLoading } = useRegisteredOracles();
@@ -54,7 +62,7 @@ export function CreateMarket({ onSuccess }: CreateMarketProps) {
     const fullQuestion = `[${category}] ${question.trim()}`;
 
     createMarket.mutate(
-      { question: fullQuestion, durationDays, oracles: selectedOracles },
+      { question: fullQuestion, durationMinutes, oracles: selectedOracles },
       {
         onSuccess: () => {
           setQuestion("");
@@ -128,23 +136,26 @@ export function CreateMarket({ onSuccess }: CreateMarketProps) {
           <div className="form-group">
             <label>Betting Duration</label>
             <div className="duration-options">
-              {presetDurations.map((days) => (
+              {presetDurations.map((preset) => (
                 <button
-                  key={days}
+                  key={preset.minutes}
                   type="button"
-                  className={`duration-option ${!customDuration && durationDays === days ? "selected" : ""}`}
+                  className={`duration-option ${!customDuration && durationMinutes === preset.minutes ? "selected" : ""}`}
                   onClick={() => {
                     setCustomDuration(false);
-                    setDurationDays(days);
+                    setDurationMinutes(preset.minutes);
                   }}
                 >
-                  {days} {days === 1 ? "day" : "days"}
+                  {preset.label}
                 </button>
               ))}
               <button
                 type="button"
                 className={`duration-option ${customDuration ? "selected" : ""}`}
-                onClick={() => setCustomDuration(true)}
+                onClick={() => {
+                  setCustomDuration(true);
+                  setDurationMinutes(customMinutes);
+                }}
               >
                 Custom
               </button>
@@ -154,12 +165,16 @@ export function CreateMarket({ onSuccess }: CreateMarketProps) {
                 <input
                   type="number"
                   min={1}
-                  max={30}
-                  value={durationDays}
-                  onChange={(e) => setDurationDays(Math.max(1, Math.min(30, parseInt(e.target.value) || 1)))}
+                  max={43200}
+                  value={customMinutes}
+                  onChange={(e) => {
+                    const val = Math.max(1, Math.min(43200, parseInt(e.target.value) || 1));
+                    setCustomMinutes(val);
+                    setDurationMinutes(val);
+                  }}
                   className="custom-duration-input"
                 />
-                <span className="custom-duration-label">days (1-30)</span>
+                <span className="custom-duration-label">minutes</span>
               </div>
             )}
           </div>
@@ -201,7 +216,7 @@ export function CreateMarket({ onSuccess }: CreateMarketProps) {
                 {selectableCategories.find(c => c.id === category)?.label}
               </span>
               <p className="preview-question">{question || "Your question will appear here..."}</p>
-              <p className="preview-duration">Betting open for {durationDays} {durationDays === 1 ? "day" : "days"}</p>
+              <p className="preview-duration">Betting open for {durationMinutes} {durationMinutes === 1 ? "minute" : "minutes"}</p>
             </div>
           </div>
 

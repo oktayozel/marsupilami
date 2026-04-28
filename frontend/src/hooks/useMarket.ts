@@ -260,7 +260,7 @@ export function useCreateMarket() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ question, durationDays, oracles }: { question: string; durationDays: number; oracles: string[] }) => {
+    mutationFn: async ({ question, durationMinutes, oracles }: { question: string; durationMinutes: number; oracles: string[] }) => {
       const signer = await getSigner();
       const network = await signer.provider!.getNetwork();
       const contracts = getContracts(network.chainId);
@@ -271,7 +271,7 @@ export function useCreateMarket() {
         signer
       );
 
-      const durationSeconds = durationDays * 24 * 60 * 60;
+      const durationSeconds = durationMinutes * 60;
       const tx = await factory.createMarket(question, durationSeconds, oracles);
       return tx.wait();
     },

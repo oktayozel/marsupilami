@@ -943,7 +943,7 @@ main {
 }
 
 .custom-duration-input {
-  width: 70px;
+  width: 90px;
   padding: 0.4rem 0.6rem;
   border: 2px solid var(--accent-gold);
   border-radius: 6px;
