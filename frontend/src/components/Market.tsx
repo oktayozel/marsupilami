@@ -70,7 +70,8 @@ export function Market({ address, categoryFilter = "all" }: MarketProps) {
           <h2>{cleanQuestion}</h2>
           {categoryInfo && (
             <span className={`category-badge category-${category}`}>
-              {categoryInfo.icon} {categoryInfo.label}
+              <img src={categoryInfo.icon} alt="" className="category-badge-icon" />
+              {categoryInfo.label}
             </span>
           )}
         </div>

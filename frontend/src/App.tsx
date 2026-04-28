@@ -7,17 +7,25 @@ import { CreateMarket } from "./components/CreateMarket";
 import { useMarkets } from "./hooks/useMarket";
 import { DemoPage } from "./pages/DemoPage";
 import logo from "./assets/marsu/logo.jpeg";
+import allMarketsIcon from "./assets/new_images/all_markets.png";
+import sportsIcon from "./assets/new_images/sports.png";
+import politicsIcon from "./assets/new_images/politics.png";
+import bostonIcon from "./assets/new_images/boston.png";
+import blockchainIcon from "./assets/new_images/blockchain.png";
+import otherIcon from "./assets/new_images/other.png";
+import openMarketsIcon from "./assets/new_images/open-markets.png";
+import createMarketsIcon from "./assets/new_images/create_markets.png";
 import "./App.css";
 
 const queryClient = new QueryClient();
 
 export const CATEGORIES = [
-  { id: "all", label: "All Markets", icon: "🎯" },
-  { id: "sports", label: "Sports", icon: "⚽" },
-  { id: "politics", label: "Politics", icon: "🏛️" },
-  { id: "boston", label: "Boston", icon: "🦞" },
-  { id: "blockchain", label: "Blockchain Course", icon: "⛓️" },
-  { id: "other", label: "Other", icon: "🌟" },
+  { id: "all", label: "All Markets", icon: allMarketsIcon },
+  { id: "sports", label: "Sports", icon: sportsIcon },
+  { id: "politics", label: "Politics", icon: politicsIcon },
+  { id: "boston", label: "Boston", icon: bostonIcon },
+  { id: "blockchain", label: "Blockchain\nCourse", icon: blockchainIcon },
+  { id: "other", label: "Other", icon: otherIcon },
 ] as const;
 
 export type CategoryId = typeof CATEGORIES[number]["id"];
@@ -90,8 +98,8 @@ function MarketsTab() {
             key={category.id}
             className={`category-btn ${selectedCategory === category.id ? "active" : ""}`}
             onClick={() => setSelectedCategory(category.id)}
+            style={{ backgroundImage: `url(${category.icon})` }}
           >
-            <span className="category-icon">{category.icon}</span>
             <span className="category-label">{category.label}</span>
           </button>
         ))}
@@ -119,16 +127,16 @@ function App() {
           <button
             className={`tab-btn ${activeTab === "markets" ? "active" : ""}`}
             onClick={() => setActiveTab("markets")}
+            style={{ backgroundImage: `url(${openMarketsIcon})` }}
           >
-            <span className="tab-icon">📊</span>
-            Open Markets
+            <span className="tab-label">Open Markets</span>
           </button>
           <button
             className={`tab-btn ${activeTab === "create" ? "active" : ""}`}
             onClick={() => setActiveTab("create")}
+            style={{ backgroundImage: `url(${createMarketsIcon})` }}
           >
-            <span className="tab-icon">✨</span>
-            Create Market
+            <span className="tab-label">Create Market</span>
           </button>
         </nav>
 

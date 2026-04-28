@@ -163,48 +163,72 @@ header {
 /* Tabs Navigation */
 .tabs-nav {
   display: flex;
-  gap: 0;
+  gap: 0.5rem;
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border);
-  padding: 0 2rem;
+  padding: 0.5rem 2rem;
 }
 
 .tab-btn {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1.25rem;
-  background: transparent;
-  border: none;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
+  justify-content: center;
+  padding: 0.5rem;
+  width: 120px;
+  height: 120px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  color: white;
+  font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  border-bottom: 3px solid transparent;
-  margin-bottom: -1px;
+  overflow: hidden;
+}
+
+.tab-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.tab-btn:hover::before {
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .tab-btn:hover {
-  color: var(--text-primary);
-  background: rgba(255, 215, 0, 0.05);
+  border-color: var(--accent-gold);
 }
 
 .tab-btn.active {
-  color: var(--accent-gold);
-  border-bottom-color: var(--accent-gold);
-  background: rgba(255, 215, 0, 0.1);
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
 }
 
-.tab-icon {
-  font-size: 1rem;
+.tab-btn.active::before {
+  background: rgba(255, 215, 0, 0.3);
+}
+
+.tab-label {
+  position: relative;
+  z-index: 1;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 /* Category Filters */
 .category-filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.75rem;
   margin-bottom: 1rem;
   padding: 0.75rem;
   background: var(--bg-card);
@@ -213,44 +237,69 @@ header {
 }
 
 .category-btn {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.35rem 0.75rem;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  color: var(--text-secondary);
-  font-size: 0.8rem;
+  justify-content: center;
+  width: 90px;
+  height: 90px;
+  padding: 0.5rem;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.category-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.category-btn:hover::before {
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .category-btn:hover {
   border-color: var(--accent-gold);
-  color: var(--text-primary);
+  transform: scale(1.02);
 }
 
 .category-btn.active {
-  background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-dark) 100%);
-  color: #1a1a1a;
   border-color: var(--accent-gold);
-  font-weight: 600;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
 }
 
-.category-icon {
-  font-size: 0.95rem;
+.category-btn.active::before {
+  background: rgba(255, 215, 0, 0.3);
 }
 
 .category-label {
-  white-space: nowrap;
+  position: relative;
+  z-index: 1;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  white-space: pre-line;
+  text-align: center;
+  line-height: 1.2;
 }
 
 /* Category Badge on Market Card */
 .category-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.2rem;
   padding: 0.25rem 0.5rem;
   border-radius: 12px;
   font-size: 0.75rem;
@@ -265,6 +314,14 @@ header {
 .category-badge.category-boston { border-color: #f59e0b; color: #f59e0b; }
 .category-badge.category-blockchain { border-color: #14b8a6; color: #14b8a6; }
 .category-badge.category-other { border-color: #a855f7; color: #a855f7; }
+
+.category-badge-icon {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+  margin-right: 0.25rem;
+  vertical-align: middle;
+}
 
 .market-header-content {
   flex: 1;
@@ -793,40 +850,60 @@ main {
 }
 
 .category-option {
+  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
+  justify-content: center;
+  height: 70px;
   padding: 0.5rem;
-  background: var(--bg-secondary);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   border: 2px solid var(--border);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.category-option::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.category-option:hover::before {
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .category-option:hover {
   border-color: var(--accent-gold);
-  background: rgba(255, 215, 0, 0.05);
 }
 
 .category-option.selected {
   border-color: var(--accent-gold);
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 215, 0, 0.05) 100%);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
-.category-option-icon {
-  font-size: 1.2rem;
+.category-option.selected::before {
+  background: rgba(255, 215, 0, 0.3);
 }
 
 .category-option-label {
+  position: relative;
+  z-index: 1;
   font-size: 0.7rem;
   font-weight: 600;
-  color: var(--text-secondary);
-}
-
-.category-option.selected .category-option-label {
-  color: var(--accent-gold);
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  white-space: pre-line;
+  text-align: center;
+  line-height: 1.2;
 }
 
 /* Duration Options */
@@ -959,13 +1036,21 @@ main {
 }
 
 .preview-category {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
   font-size: 0.7rem;
   padding: 0.2rem 0.4rem;
   background: rgba(255, 215, 0, 0.1);
   border-radius: 6px;
   color: var(--accent-gold);
   margin-bottom: 0.3rem;
+}
+
+.preview-category-icon {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
 }
 
 .preview-question {

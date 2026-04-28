@@ -104,8 +104,8 @@ export function CreateMarket({ onSuccess }: CreateMarketProps) {
                   type="button"
                   className={`category-option ${category === cat.id ? "selected" : ""}`}
                   onClick={() => setCategory(cat.id)}
+                  style={{ backgroundImage: `url(${cat.icon})` }}
                 >
-                  <span className="category-option-icon">{cat.icon}</span>
                   <span className="category-option-label">{cat.label}</span>
                 </button>
               ))}
@@ -197,7 +197,7 @@ export function CreateMarket({ onSuccess }: CreateMarketProps) {
             <h4>Preview</h4>
             <div className="preview-card">
               <span className="preview-category">
-                {selectableCategories.find(c => c.id === category)?.icon}{" "}
+                <img src={selectableCategories.find(c => c.id === category)?.icon} alt="" className="preview-category-icon" />
                 {selectableCategories.find(c => c.id === category)?.label}
               </span>
               <p className="preview-question">{question || "Your question will appear here..."}</p>
