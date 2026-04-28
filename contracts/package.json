@@ -14,6 +14,7 @@
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@oasisprotocol/sapphire-hardhat": "^2.22.3",
+    "dotenv": "^17.4.2",
     "hardhat": "^2.22.3",
     "typescript": "^5.8.3"
   },

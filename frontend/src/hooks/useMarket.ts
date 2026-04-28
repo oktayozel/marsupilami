@@ -4,7 +4,7 @@ import { getSigner, getProvider } from "../utils/sapphire";
 import PredictionMarketABI from "../abi/PredictionMarket.json";
 import MarketFactoryABI from "../abi/MarketFactory.json";
 import OracleRegistryABI from "../abi/OracleRegistry.json";
-import { getContracts } from "../utils/config";
+import { getContracts, getDefaultRpcUrl, getDefaultChainId } from "../utils/config";
 
 export interface DemoState {
   marketAddress: string;
@@ -44,7 +44,7 @@ export function useLiveFeed(marketAddress: string | undefined) {
     queryKey: ["livefeed", marketAddress],
     queryFn: async (): Promise<LiveBet[]> => {
       if (!marketAddress) return [];
-      const provider = new ethers.JsonRpcProvider("http://localhost:8545");
+      const provider = new ethers.JsonRpcProvider(getDefaultRpcUrl());
       const contract = new ethers.Contract(marketAddress, PredictionMarketABI, provider);
       const currentBlock = await provider.getBlockNumber();
       const fromBlock = Math.max(0, currentBlock - 2000);
@@ -87,8 +87,8 @@ export function useMarkets() {
   return useQuery({
     queryKey: ["markets"],
     queryFn: async (): Promise<string[]> => {
-      const provider = new ethers.JsonRpcProvider("http://localhost:8545");
-      const contracts = getContracts(BigInt(31337));
+      const provider = new ethers.JsonRpcProvider(getDefaultRpcUrl());
+      const contracts = getContracts(getDefaultChainId());
 
       if (!contracts.marketFactory) {
         return [];
@@ -112,7 +112,7 @@ export function useMarketInfo(marketAddress: string) {
   return useQuery({
     queryKey: ["market", marketAddress],
     queryFn: async (): Promise<MarketInfo> => {
-      const provider = new ethers.JsonRpcProvider("http://localhost:8545");
+      const provider = new ethers.JsonRpcProvider(getDefaultRpcUrl());
       const market = new ethers.Contract(
         marketAddress,
         PredictionMarketABI,
@@ -220,8 +220,8 @@ export function useRegisteredOracles() {
   return useQuery({
     queryKey: ["oracles"],
     queryFn: async (): Promise<OracleInfo[]> => {
-      const provider = new ethers.JsonRpcProvider("http://localhost:8545");
-      const contracts = getContracts(BigInt(31337));
+      const provider = new ethers.JsonRpcProvider(getDefaultRpcUrl());
+      const contracts = getContracts(getDefaultChainId());
 
       if (!contracts.oracleRegistry) {
         return [];
