@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { connectWallet, getProvider } from "../utils/sapphire";
 import logo from "../assets/marsu/logo.jpeg";
-import privacyShield from "../assets/marsu/privacy-shield.jpeg";
 import connectWalletIcon from "../assets/marsu/connect-wallet.jpeg";
 
 const DISCONNECTED_KEY = "marsupilami_disconnected";
@@ -88,10 +87,6 @@ export function Header() {
           <h1>Marsupilami</h1>
           <p className="tagline">Privacy-Preserving Prediction Markets</p>
         </div>
-        <span className="privacy-badge">
-          <img src={privacyShield} alt="" style={{ width: 16, height: 16, borderRadius: 4 }} />
-          TEE Protected
-        </span>
       </div>
 
       <div className="header-actions">
