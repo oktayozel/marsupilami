@@ -45,7 +45,7 @@ export function LiveFeed() {
             <span className="live-badge done">DEMO COMPLETE</span>
           )}
           <span className="live-stats">
-            {totalBets} bets · {parseFloat(totalDeposits).toFixed(3)} ETH deposited
+            {totalBets} bets · {parseFloat(totalDeposits).toFixed(3)} ROSE deposited
           </span>
         </div>
         <p className="live-question">{demo.question}</p>
@@ -75,7 +75,7 @@ export function LiveFeed() {
             <>
               <div className="live-odds-side live-odds-side-yes">
                 <span className="live-odds-pct">{yesPct}% YES</span>
-                <span className="live-odds-detail">{yesPool.toFixed(3)} ETH · {yesMult}x payout</span>
+                <span className="live-odds-detail">{yesPool.toFixed(3)} ROSE · {yesMult}x payout</span>
               </div>
               <div className="live-odds-track">
                 <div className="live-odds-fill-yes" style={{ width: `${yesPct}%` }} />
@@ -83,7 +83,7 @@ export function LiveFeed() {
               </div>
               <div className="live-odds-side live-odds-side-no">
                 <span className="live-odds-pct">{noPct}% NO</span>
-                <span className="live-odds-detail">{noPool.toFixed(3)} ETH · {noMult}x payout</span>
+                <span className="live-odds-detail">{noPool.toFixed(3)} ROSE · {noMult}x payout</span>
               </div>
             </>
           )}
@@ -100,7 +100,7 @@ export function LiveFeed() {
               <span className="live-bet-addr">
                 {bet.user.slice(0, 6)}…{bet.user.slice(-4)}
               </span>
-              <span className="live-bet-amount">{parseFloat(bet.amount).toFixed(4)} ETH</span>
+              <span className="live-bet-amount">{parseFloat(bet.amount).toFixed(4)} ROSE</span>
               <span className="live-bet-choice">??? (private)</span>
             </div>
           ))
