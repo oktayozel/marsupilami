@@ -18,8 +18,8 @@ import * as path from "path";
 // ─── Config ────────────────────────────────────────────────────────────────
 
 const NUM_ACCOUNTS     = randInt(100, 200);   // resolved at runtime
-const DURATION_MIN     = 10;                  // minutes to spread bets over
-const ODDS_UPDATE_MIN  = 2;                   // must match PredictionMarket.sol
+const DURATION_MIN     = 3;                  // minutes to spread bets over
+const ODDS_UPDATE_MIN  = 1;                   // must match PredictionMarket.sol
 const FUND_ETH         = "0.08";              // ETH given to each bettor wallet
 const MIN_BET_ETH      = 0.01;
 const MAX_BET_ETH      = 0.05;
@@ -176,6 +176,7 @@ async function main() {
   // Track which wallets bet on which side for claiming later
   const yesBettors: typeof wallets = [];
   const noBettors: typeof wallets = [];
+  const betAmounts = new Map<string, bigint>(); // address → amount bet
 
   // ── Parallel odds clock ──────────────────────────────────────────────────
   async function printOdds(tick: number) {
@@ -230,6 +231,7 @@ async function main() {
           noCount++;
           noBettors.push(wallet);
         }
+        betAmounts.set(wallet.address, betWei);
 
         const betNum = yesCount + noCount;
         console.log(
@@ -260,6 +262,20 @@ async function main() {
   console.log(`  Failed        : ${failCount}`);
   console.log(`ETH deposited   : ${ethers.formatEther(marketTotalDeposits)} ETH (on-chain)`);
   console.log("=".repeat(56));
+
+  // ─── Contract Balances After Betting ─────────────────────────────────────
+  {
+    const pmBal = await ethers.provider.getBalance(marketAddress);
+    const orBal = await ethers.provider.getBalance(addresses.oracleRegistry);
+    const mfBal = await ethers.provider.getBalance(addresses.marketFactory);
+    console.log("\n" + "─".repeat(56));
+    console.log("  Contract Balances (bets in escrow)");
+    console.log("─".repeat(56));
+    console.log(`  PredictionMarket : ${ethers.formatEther(pmBal).padEnd(14)} ETH  ← all bets locked`);
+    console.log(`  OracleRegistry   : ${ethers.formatEther(orBal).padEnd(14)} ETH  ← ${oracleWallets.length} oracle stakes (${ORACLE_STAKE} ETH each)`);
+    console.log(`  MarketFactory    : ${ethers.formatEther(mfBal).padEnd(14)} ETH`);
+    console.log("─".repeat(56));
+  }
 
   // ─── Phase 5: Close Market ───────────────────────────────────────────────
   console.log(`\n[5/7] Closing market...`);
@@ -311,6 +327,7 @@ async function main() {
   let totalClaimed = 0n;
   let claimCount = 0;
   let claimErrors = 0;
+  const payouts = new Map<string, bigint>(); // address → ETH received
 
   // Process claims for winners
   for (const wallet of winners) {
@@ -322,6 +339,7 @@ async function main() {
       const balAfter = await ethers.provider.getBalance(wallet.address);
 
       const claimed = balAfter - balBefore + gasUsed;
+      payouts.set(wallet.address, claimed);
       totalClaimed += claimed;
       claimCount++;
     } catch (err: any) {
@@ -332,6 +350,73 @@ async function main() {
   console.log(`      Claims processed: ${claimCount}`);
   console.log(`      Claim errors: ${claimErrors}`);
   console.log(`      Total paid out: ${ethers.formatEther(totalClaimed)} ETH`);
+
+  // ─── Payout Breakdown ────────────────────────────────────────────────────
+  const SHOW_EACH = 8;
+  const loserLabel = outcomeLabel === "YES" ? "NO" : "YES";
+
+  // Sort winners by payout descending
+  const sortedWinners = [...winners].sort((a, b) => {
+    const pa = payouts.get(a.address) ?? 0n;
+    const pb = payouts.get(b.address) ?? 0n;
+    return pa > pb ? -1 : pa < pb ? 1 : 0;
+  });
+
+  console.log("\n" + "─".repeat(56));
+  console.log("  Payout Breakdown");
+  console.log("─".repeat(56));
+
+  console.log(`\n  WINNERS  (bet ${outcomeLabel} — ${winners.length} accounts):`);
+  for (const w of sortedWinners.slice(0, SHOW_EACH)) {
+    const staked = betAmounts.get(w.address) ?? 0n;
+    const paid   = payouts.get(w.address) ?? 0n;
+    const profitPct = staked > 0n
+      ? (((paid - staked) * 10000n) / staked) / 100n
+      : 0n;
+    const sign = profitPct >= 0n ? "+" : "";
+    console.log(
+      `    ...${w.address.slice(-6)}  staked ${ethers.formatEther(staked).padEnd(8)} ETH` +
+      `  →  paid out ${ethers.formatEther(paid).padEnd(8)} ETH  (${sign}${profitPct}%)`
+    );
+  }
+  if (winners.length > SHOW_EACH)
+    console.log(`    ... and ${winners.length - SHOW_EACH} more winner${winners.length - SHOW_EACH > 1 ? "s" : ""}`);
+
+  console.log(`\n  LOSERS   (bet ${loserLabel} — ${losers.length} accounts):`);
+  for (const w of losers.slice(0, SHOW_EACH)) {
+    const staked = betAmounts.get(w.address) ?? 0n;
+    console.log(
+      `    ...${w.address.slice(-6)}  staked ${ethers.formatEther(staked).padEnd(8)} ETH` +
+      `  →  paid out 0.0000    ETH  ✗`
+    );
+  }
+  if (losers.length > SHOW_EACH)
+    console.log(`    ... and ${losers.length - SHOW_EACH} more loser${losers.length - SHOW_EACH > 1 ? "s" : ""}`);
+
+  const pmBalFinal = await ethers.provider.getBalance(marketAddress);
+  console.log(`\n  Contract Balances (post-payout):`);
+  console.log(`    PredictionMarket : ${ethers.formatEther(pmBalFinal).padEnd(14)} ETH  ← emptied out`);
+  console.log("─".repeat(56));
+
+  // Write payout results to demo-state.json so the frontend can display them
+  const demoStateRaw = fs.readFileSync(demoStatePath, "utf8");
+  const demoStateObj = JSON.parse(demoStateRaw);
+  demoStateObj.payout = {
+    outcome: outcomeLabel,
+    totalDeposited: ethers.formatEther(marketTotalDeposits),
+    totalPaidOut: ethers.formatEther(totalClaimed),
+    winners: sortedWinners.map(w => ({
+      address: w.address,
+      staked: ethers.formatEther(betAmounts.get(w.address) ?? 0n),
+      paidOut: ethers.formatEther(payouts.get(w.address) ?? 0n),
+    })),
+    losers: losers.map(w => ({
+      address: w.address,
+      staked: ethers.formatEther(betAmounts.get(w.address) ?? 0n),
+    })),
+  };
+  fs.writeFileSync(demoStatePath, JSON.stringify(demoStateObj, null, 2));
+  console.log(`\n  Payout results written → frontend/public/demo-state.json`);
 
   // ─── Final Summary ───────────────────────────────────────────────────────
   console.log("\n" + "=".repeat(56));

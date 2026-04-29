@@ -6,6 +6,20 @@ import MarketFactoryABI from "../abi/MarketFactory.json";
 import OracleRegistryABI from "../abi/OracleRegistry.json";
 import { getContracts, getDefaultRpcUrl, getDefaultChainId } from "../utils/config";
 
+export interface PayoutEntry {
+  address: string;
+  staked: string;
+  paidOut?: string; // only present for winners
+}
+
+export interface PayoutResult {
+  outcome: string;
+  totalDeposited: string;
+  totalPaidOut: string;
+  winners: PayoutEntry[];
+  losers: PayoutEntry[];
+}
+
 export interface DemoState {
   marketAddress: string;
   question: string;
@@ -14,6 +28,7 @@ export interface DemoState {
   durationMin: number;
   oddsUpdateMin: number;
   marketFactory: string;
+  payout?: PayoutResult;
 }
 
 export interface LiveBet {

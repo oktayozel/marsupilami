@@ -1,5 +1,73 @@
 import { useState, useEffect } from "react";
-import { useDemoState, useLiveFeed, useMarketInfo } from "../hooks/useMarket";
+import { useDemoState, useLiveFeed, useMarketInfo, type PayoutEntry } from "../hooks/useMarket";
+
+function PayoutTable({ outcome, winners, losers, totalDeposited, totalPaidOut }: {
+  outcome: string;
+  winners: PayoutEntry[];
+  losers: PayoutEntry[];
+  totalDeposited: string;
+  totalPaidOut: string;
+}) {
+  const loserLabel = outcome === "YES" ? "NO" : "YES";
+
+  return (
+    <div className="payout-section">
+      <div className="payout-header">
+        <span className="payout-title">Payout Results</span>
+        <span className="payout-outcome" data-outcome={outcome}>Outcome: {outcome}</span>
+      </div>
+
+      <div className="payout-summary-row">
+        <span>Total deposited: <strong>{parseFloat(totalDeposited).toFixed(4)} ETH</strong></span>
+        <span>Total paid out: <strong>{parseFloat(totalPaidOut).toFixed(4)} ETH</strong></span>
+      </div>
+
+      <div className="payout-cols">
+        <div className="payout-col">
+          <div className="payout-col-header payout-col-winners">
+            ✓ Winners — bet {outcome} ({winners.length})
+          </div>
+          <div className="payout-list">
+            {winners.map((w) => {
+              const staked = parseFloat(w.staked);
+              const paid = parseFloat(w.paidOut ?? "0");
+              const pct = staked > 0 ? Math.round(((paid - staked) / staked) * 100) : 0;
+              return (
+                <div key={w.address} className="payout-row payout-row-win">
+                  <span className="payout-addr">…{w.address.slice(-6)}</span>
+                  <span className="payout-staked">{staked.toFixed(4)}</span>
+                  <span className="payout-arrow">→</span>
+                  <span className="payout-paid">{paid.toFixed(4)} ETH</span>
+                  <span className="payout-pct">+{pct}%</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="payout-col">
+          <div className="payout-col-header payout-col-losers">
+            ✗ Losers — bet {loserLabel} ({losers.length})
+          </div>
+          <div className="payout-list">
+            {losers.map((w) => {
+              const staked = parseFloat(w.staked);
+              return (
+                <div key={w.address} className="payout-row payout-row-loss">
+                  <span className="payout-addr">…{w.address.slice(-6)}</span>
+                  <span className="payout-staked">{staked.toFixed(4)}</span>
+                  <span className="payout-arrow">→</span>
+                  <span className="payout-paid">0.0000 ETH</span>
+                  <span className="payout-pct payout-x">✗</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function LiveFeed() {
   const { data: demo } = useDemoState();
@@ -108,6 +176,16 @@ export function LiveFeed() {
           <p className="live-empty">Waiting for bets…</p>
         )}
       </div>
+
+      {demo.payout && (
+        <PayoutTable
+          outcome={demo.payout.outcome}
+          winners={demo.payout.winners}
+          losers={demo.payout.losers}
+          totalDeposited={demo.payout.totalDeposited}
+          totalPaidOut={demo.payout.totalPaidOut}
+        />
+      )}
     </div>
   );
 }

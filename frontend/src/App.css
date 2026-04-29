@@ -1459,3 +1459,145 @@ main {
   color: var(--text-secondary);
   font-size: 0.85rem;
 }
+
+/* ─── Payout Table ──────────────────────────────────────────────────────── */
+.payout-section {
+  border-top: 1px solid var(--border-gold);
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.payout-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.payout-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.payout-outcome {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+}
+.payout-outcome[data-outcome="YES"] {
+  background: var(--accent-yes-bg);
+  color: var(--accent-yes);
+  border: 1px solid var(--accent-yes);
+}
+.payout-outcome[data-outcome="NO"] {
+  background: var(--accent-no-bg);
+  color: var(--accent-no);
+  border: 1px solid var(--accent-no);
+}
+
+.payout-summary-row {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+}
+.payout-summary-row strong {
+  color: var(--text-primary);
+}
+
+.payout-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.payout-col {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.payout-col-header {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.payout-col-winners {
+  background: var(--accent-yes-bg);
+  color: var(--accent-yes);
+  border-bottom: 1px solid var(--accent-yes);
+}
+
+.payout-col-losers {
+  background: var(--accent-no-bg);
+  color: var(--accent-no);
+  border-bottom: 1px solid var(--accent-no);
+}
+
+.payout-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.payout-list::-webkit-scrollbar { width: 4px; }
+.payout-list::-webkit-scrollbar-track { background: var(--bg-secondary); }
+.payout-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.payout-row {
+  display: grid;
+  grid-template-columns: 60px 52px 14px 1fr 38px;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.28rem 0.75rem;
+  font-size: 0.74rem;
+  border-bottom: 1px solid rgba(61, 90, 61, 0.3);
+}
+.payout-row:last-child { border-bottom: none; }
+
+.payout-addr {
+  font-family: monospace;
+  color: var(--accent-primary);
+}
+
+.payout-staked {
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+.payout-arrow {
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.payout-row-win .payout-paid {
+  color: var(--accent-yes);
+  font-weight: 600;
+}
+
+.payout-row-loss .payout-paid {
+  color: var(--text-secondary);
+}
+
+.payout-pct {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--accent-yes);
+  text-align: right;
+}
+
+.payout-x {
+  color: var(--accent-no);
+}

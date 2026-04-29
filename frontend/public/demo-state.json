@@ -1,15 +1,574 @@
 {
   "marketAddress": "0xCafac3dD18aC6c6e92c921884f9E4176737C052c",
   "question": "Will Bitcoin surpass $150,000 before the end of 2026?",
-  "startedAt": "2026-04-27T22:46:27.817Z",
-  "totalBettors": 104,
-  "durationMin": 10,
-  "oddsUpdateMin": 2,
+  "startedAt": "2026-04-29T22:55:27.471Z",
+  "totalBettors": 121,
+  "durationMin": 3,
+  "oddsUpdateMin": 1,
   "marketFactory": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
   "oracleRegistry": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
   "oracles": [
-    "0x583a26470bFF256BBc19354FE2218406C0E70bdF",
-    "0x7816Ef14d3f5BE2061594af7F1c2C3aBC81553ff",
-    "0x71D251C983B6753E5E8E1a23f4A34760943b2554"
-  ]
+    "0xca8BF466a4BF12e2bB578452B566bD9e90693d9E",
+    "0xDaB9e13a52f75968662c859e867edf1f0A538Fb3",
+    "0xEFCf40ef449e20A696Ee6d13ef2960D21AEa70F6"
+  ],
+  "payout": {
+    "outcome": "NO",
+    "totalDeposited": "3.582",
+    "totalPaidOut": "3.581999999999999967",
+    "winners": [
+      {
+        "address": "0x871c763Af57d8816bd94F593ae4528f6BCC55D62",
+        "staked": "0.0491",
+        "paidOut": "0.09281065963060686"
+      },
+      {
+        "address": "0x93Fec4D9e023e4feE4D9C1ff3a4f9db09B32Dd0B",
+        "staked": "0.0472",
+        "paidOut": "0.089219208443271767"
+      },
+      {
+        "address": "0xe5Ff7BeB1e7DeC85459D14c26754dA46e97242Cc",
+        "staked": "0.0468",
+        "paidOut": "0.088463113456464379"
+      },
+      {
+        "address": "0x934847ee5fC5d6B2C1d7AEC5Ba75c56ad32BaC71",
+        "staked": "0.046",
+        "paidOut": "0.086950923482849604"
+      },
+      {
+        "address": "0x3569adD898AfE2CF3687fa1Fd5C71336C6d81EDD",
+        "staked": "0.045",
+        "paidOut": "0.085060686015831134"
+      },
+      {
+        "address": "0x428dd7e59422338e5235B982A19A8d19aEce257c",
+        "staked": "0.0448",
+        "paidOut": "0.08468263852242744"
+      },
+      {
+        "address": "0x2B2B1098567131A505Dd183617e73518F7250F60",
+        "staked": "0.0446",
+        "paidOut": "0.084304591029023746"
+      },
+      {
+        "address": "0x6A7E3C24b418254D855D733a410BA82081eAF828",
+        "staked": "0.0444",
+        "paidOut": "0.083926543535620052"
+      },
+      {
+        "address": "0x77E5C2a590E63924b2D4FF50b3B59D3b7601308a",
+        "staked": "0.0443",
+        "paidOut": "0.083737519788918205"
+      },
+      {
+        "address": "0xC22C3D617B3c9DEE6737842bF48B97F95e8e909B",
+        "staked": "0.0442",
+        "paidOut": "0.083548496042216358"
+      },
+      {
+        "address": "0x741cc3C0ca73A252211508DEC612A29de61040aE",
+        "staked": "0.044",
+        "paidOut": "0.083170448548812664"
+      },
+      {
+        "address": "0x87ca95Ea57F3400ECc95e4eb97396D89d99Dcf3C",
+        "staked": "0.0408",
+        "paidOut": "0.077121688654353562"
+      },
+      {
+        "address": "0x4D39f2b198a0E8Fe7b9482e6950665AcCbb0998b",
+        "staked": "0.0406",
+        "paidOut": "0.076743641160949868"
+      },
+      {
+        "address": "0x8bfEe08f287c7236042Aceb2D1a4B7fa551D220c",
+        "staked": "0.0384",
+        "paidOut": "0.072585118733509234"
+      },
+      {
+        "address": "0xac3900B80Fe7c6b22AAec8C5bE99A402d1103be1",
+        "staked": "0.0375",
+        "paidOut": "0.070883905013192612"
+      },
+      {
+        "address": "0x74b9F348602c473d0f85441961325B99Cc419801",
+        "staked": "0.0362",
+        "paidOut": "0.068426596306068601"
+      },
+      {
+        "address": "0x43FB2a534889755CdDFE778B9e97acd4b4CE6F7B",
+        "staked": "0.0358",
+        "paidOut": "0.067670501319261213"
+      },
+      {
+        "address": "0xA2B616d7bfcC10e20346e43B0F30836F281BB0d2",
+        "staked": "0.0356",
+        "paidOut": "0.067292453825857519"
+      },
+      {
+        "address": "0xa847824C5F7b2d22e3afb5968245A6C6C7F8D292",
+        "staked": "0.0352",
+        "paidOut": "0.066536358839050131"
+      },
+      {
+        "address": "0x6211479cc972A0Ec4726400579ACAD02Ce3C36c1",
+        "staked": "0.0352",
+        "paidOut": "0.066536358839050131"
+      },
+      {
+        "address": "0x2AD8be9BE7167746647d5d3A0e9a19aa3216120F",
+        "staked": "0.0343",
+        "paidOut": "0.064835145118733509"
+      },
+      {
+        "address": "0x22C1Ea0ED073Ddf8dc61E658082371f639739f70",
+        "staked": "0.0341",
+        "paidOut": "0.064457097625329815"
+      },
+      {
+        "address": "0x4db7f55F2F2Dfea0d7219963f98a84C35886Cf04",
+        "staked": "0.0337",
+        "paidOut": "0.063701002638522427"
+      },
+      {
+        "address": "0x08d54EBDd3479D007FabEd389abccf543407C43a",
+        "staked": "0.033",
+        "paidOut": "0.062377836411609498"
+      },
+      {
+        "address": "0xB4Fc087B0094DF49F577ce239e32fAf7Cf0de959",
+        "staked": "0.033",
+        "paidOut": "0.062377836411609498"
+      },
+      {
+        "address": "0x7f8d95817A809314D254bB896405442996BEa80f",
+        "staked": "0.0319",
+        "paidOut": "0.060298575197889182"
+      },
+      {
+        "address": "0x5f2947c00420dA787dB399a1b4c04aeB8AdDCEb6",
+        "staked": "0.0316",
+        "paidOut": "0.059731503957783641"
+      },
+      {
+        "address": "0xa0f7b9105B7F351dC498AB3D146657e451C00633",
+        "staked": "0.0312",
+        "paidOut": "0.058975408970976253"
+      },
+      {
+        "address": "0x12c220aD97FA2Fd99cF34942bA8215aA5aE06d01",
+        "staked": "0.0306",
+        "paidOut": "0.057841266490765171"
+      },
+      {
+        "address": "0x6De43ae32a99F8D649bFC7969b0b93Ad9074d083",
+        "staked": "0.0304",
+        "paidOut": "0.057463218997361477"
+      },
+      {
+        "address": "0x04f67ffE6ad2157D05E879b753C3d0ea78a5BB45",
+        "staked": "0.0303",
+        "paidOut": "0.05727419525065963"
+      },
+      {
+        "address": "0x0275000cA71DBc778a984E2d459E7b19E636975B",
+        "staked": "0.0293",
+        "paidOut": "0.05538395778364116"
+      },
+      {
+        "address": "0xA6ff4f22aA7058Cc7FC0F2ec375dec8480cDAc6d",
+        "staked": "0.0293",
+        "paidOut": "0.05538395778364116"
+      },
+      {
+        "address": "0x394040879F14532a913Beac1bda4Fbb8b7655D2a",
+        "staked": "0.0291",
+        "paidOut": "0.055005910290237467"
+      },
+      {
+        "address": "0x6e18e6f9f5437cfDc21b2d860d940fAB3BE8c4d1",
+        "staked": "0.028",
+        "paidOut": "0.05292664907651715"
+      },
+      {
+        "address": "0x60CfF07b0195DAdFED9E4B7aEf5b2545C16ACe92",
+        "staked": "0.0279",
+        "paidOut": "0.052737625329815303"
+      },
+      {
+        "address": "0xaBEc3A32449fC2BFD7e5bCD7ccc04474BfBe0b16",
+        "staked": "0.0277",
+        "paidOut": "0.052359577836411609"
+      },
+      {
+        "address": "0xBb63EbB50a76262E68d617dD92bb657384218e75",
+        "staked": "0.0273",
+        "paidOut": "0.051603482849604221"
+      },
+      {
+        "address": "0xC7B127cD70941aEa548A630cb105Fa56567D9B8b",
+        "staked": "0.0261",
+        "paidOut": "0.049335197889182058"
+      },
+      {
+        "address": "0x9F5Cb5E435057C76a149cb8b2aE17bf533b32a54",
+        "staked": "0.026",
+        "paidOut": "0.049146174142480211"
+      },
+      {
+        "address": "0x04fbf13ef2e65dA7c92374354FC7e45c28965Dab",
+        "staked": "0.026",
+        "paidOut": "0.049146174142480211"
+      },
+      {
+        "address": "0xBD6975FdB4F4450E7c90cEa2824cea68B98b9781",
+        "staked": "0.0247",
+        "paidOut": "0.0466888654353562"
+      },
+      {
+        "address": "0xc86Ba2C185dD9aaf1734Ac00DEDA82C9D7eF853d",
+        "staked": "0.0242",
+        "paidOut": "0.045743746701846965"
+      },
+      {
+        "address": "0xc5349005196cD285D440a866B0E7bC8E72fFDF05",
+        "staked": "0.0222",
+        "paidOut": "0.041963271767810026"
+      },
+      {
+        "address": "0x3e5E83544c662b873f6ECCE8D13F538968A17a74",
+        "staked": "0.021",
+        "paidOut": "0.039694986807387862"
+      },
+      {
+        "address": "0x591e18110025177C4601B9Dd23b03f0abB0eDafF",
+        "staked": "0.0198",
+        "paidOut": "0.037426701846965699"
+      },
+      {
+        "address": "0xF096ab848B4A0b71367be62f8d415E15eb25050f",
+        "staked": "0.0195",
+        "paidOut": "0.036859630606860158"
+      },
+      {
+        "address": "0x7F3E3891c8a6BA8017fB142D75cE5C9a60C5c66F",
+        "staked": "0.0189",
+        "paidOut": "0.035725488126649076"
+      },
+      {
+        "address": "0xc4F29af4479bE57Bf00719960637Edcfc17034E7",
+        "staked": "0.0187",
+        "paidOut": "0.035347440633245382"
+      },
+      {
+        "address": "0x28bd681462C00Bbe58256475C5350c14B68ee329",
+        "staked": "0.0182",
+        "paidOut": "0.034402321899736147"
+      },
+      {
+        "address": "0x4a3B6aB90Ce37bc8545099AcD6e9B7918D6894B7",
+        "staked": "0.0182",
+        "paidOut": "0.034402321899736147"
+      },
+      {
+        "address": "0xfF4F4abF01677A5071D141D8CB47eF35B66acD9E",
+        "staked": "0.0181",
+        "paidOut": "0.0342132981530343"
+      },
+      {
+        "address": "0xFd2D8B394Da44975E0Ff56f1A881BA82d178608B",
+        "staked": "0.0178",
+        "paidOut": "0.033646226912928759"
+      },
+      {
+        "address": "0x7e63B2A888732920C75811a92dcA0Af9b7E1998D",
+        "staked": "0.0175",
+        "paidOut": "0.033079155672823218"
+      },
+      {
+        "address": "0x123722faEce2a8E4F1ec89575b9f166E14334462",
+        "staked": "0.0174",
+        "paidOut": "0.032890131926121372"
+      },
+      {
+        "address": "0x736Ada38890396B17e64cBB17Ee5C17be501D3a8",
+        "staked": "0.0172",
+        "paidOut": "0.032512084432717678"
+      },
+      {
+        "address": "0x6F82a8c4cCB6D9f418f133F9BfCDba2FBA73Ca06",
+        "staked": "0.0169",
+        "paidOut": "0.031945013192612137"
+      },
+      {
+        "address": "0xf4549f529a9CEB319C13540C66117F74359B0246",
+        "staked": "0.0163",
+        "paidOut": "0.030810870712401055"
+      },
+      {
+        "address": "0xf7A479a758cfa72B74Ae2EA06AdE3893b2065d49",
+        "staked": "0.0144",
+        "paidOut": "0.027219419525065963"
+      },
+      {
+        "address": "0xC79d49396b06055DadC45353fe7026944122EB86",
+        "staked": "0.0143",
+        "paidOut": "0.027030395778364116"
+      },
+      {
+        "address": "0xc2696B91c0e586796aBac6C58cDD5f5b6b2522bF",
+        "staked": "0.0136",
+        "paidOut": "0.025707229551451187"
+      },
+      {
+        "address": "0x00DB92e317c7B6BA2f9524874160635Ee18e9B78",
+        "staked": "0.0128",
+        "paidOut": "0.024195039577836411"
+      },
+      {
+        "address": "0x113429F0A68d61164b746ba6895b40E5DA7F6E1a",
+        "staked": "0.0126",
+        "paidOut": "0.023816992084432717"
+      },
+      {
+        "address": "0x94fc15Bf7C15ac8EE3a446e18619ceAE76D3813f",
+        "staked": "0.0122",
+        "paidOut": "0.023060897097625329"
+      },
+      {
+        "address": "0xf982c57A57935abD8DB8265d1a4F8c7702D48808",
+        "staked": "0.0111",
+        "paidOut": "0.020981635883905013"
+      },
+      {
+        "address": "0x3a0924c4396883D488501E02C83fe5b58Daa5e2d",
+        "staked": "0.0109",
+        "paidOut": "0.020603588390501319"
+      }
+    ],
+    "losers": [
+      {
+        "address": "0x3969AC54A3F7366640F1ca3eA4C00058A52c23f0",
+        "staked": "0.0258"
+      },
+      {
+        "address": "0x2dBC27766c5a208930cFDccdF7b19c5c64145be6",
+        "staked": "0.0134"
+      },
+      {
+        "address": "0x070c4568347bBd0a29B1760DFccb15D7BD497221",
+        "staked": "0.0337"
+      },
+      {
+        "address": "0xdC5cb9267A47882cBf67da8fBBa632E07Cd25e9F",
+        "staked": "0.0484"
+      },
+      {
+        "address": "0x2C6EEB8657D88a93c5dbf436B4C5a200d4040b42",
+        "staked": "0.0412"
+      },
+      {
+        "address": "0x70F69A3F56B85EAd7397317b096f53227edd6934",
+        "staked": "0.0164"
+      },
+      {
+        "address": "0xF46a8fDAee5ef58B1b3A12D5911bC017F2C4045f",
+        "staked": "0.018"
+      },
+      {
+        "address": "0xE6DfDb67d443b1DE6076627088a87a64BF01C70E",
+        "staked": "0.0331"
+      },
+      {
+        "address": "0x668E189eF14A939021c98fbe5fcD3200f668C230",
+        "staked": "0.0257"
+      },
+      {
+        "address": "0x8837DEcA1EAA5E21afDAe16983a01A2E8c5A6535",
+        "staked": "0.0313"
+      },
+      {
+        "address": "0x9b6f4B26A3f123ac7117e27D79a88F08D0283bf1",
+        "staked": "0.0371"
+      },
+      {
+        "address": "0xF185bF5ea16118D0FF149187320AEaa2285cA7e8",
+        "staked": "0.014"
+      },
+      {
+        "address": "0xdAb464D5eaE59d840a93b094A1B29d55d94d030d",
+        "staked": "0.0128"
+      },
+      {
+        "address": "0x1c36053151D6Bfc995A18E2Dc46dCC61B850B9A7",
+        "staked": "0.0321"
+      },
+      {
+        "address": "0x97b7d5aDb34a146615e7a5205b58890A867D49F3",
+        "staked": "0.0467"
+      },
+      {
+        "address": "0xaDCfbaCfcB0fb01b8bDaaAa3eE0B2B8581591935",
+        "staked": "0.0235"
+      },
+      {
+        "address": "0x084b348b4d8f7C23376d83da12f532070c04a3Ce",
+        "staked": "0.0336"
+      },
+      {
+        "address": "0x46034953118cbE8beC63c0E0c8f5386b4494b948",
+        "staked": "0.0305"
+      },
+      {
+        "address": "0xa3fBe889dD61591e7E35FE176b9C5CC51b549BFE",
+        "staked": "0.0328"
+      },
+      {
+        "address": "0xa75A005c87abc0F865650795F78d0C12A87D7832",
+        "staked": "0.0248"
+      },
+      {
+        "address": "0x30dE3f23c5337481853218dC733403B01D532c09",
+        "staked": "0.0478"
+      },
+      {
+        "address": "0xDE682fd4c06900F38398404219F3Fe0e3C7320e6",
+        "staked": "0.0215"
+      },
+      {
+        "address": "0xbdC0aB307D3CAA39FF492aC1F177eaB9D50Cc185",
+        "staked": "0.017"
+      },
+      {
+        "address": "0x5CA83Cdc9FC12f625Cd5734Ee8458ce4EDAd30e9",
+        "staked": "0.0409"
+      },
+      {
+        "address": "0x40ba2040526EF48D94B935262bb7464920EB4618",
+        "staked": "0.026"
+      },
+      {
+        "address": "0x31dF392203CfB491c8Df1BBC616C68b1437d8353",
+        "staked": "0.0386"
+      },
+      {
+        "address": "0x8974fD6FC296c3d8d88CAcc49C34106435b8A613",
+        "staked": "0.0295"
+      },
+      {
+        "address": "0xb2687cf1c929DbA501BF7db05cD233a3049f71ed",
+        "staked": "0.0204"
+      },
+      {
+        "address": "0xcFE916C1650d03dd7443c23C01a7895f77E58E2e",
+        "staked": "0.0461"
+      },
+      {
+        "address": "0x7c04415bbFcBfAC6B43f5c2F0f8c55dA415b3F9B",
+        "staked": "0.0442"
+      },
+      {
+        "address": "0x452Cb6c9aB68f730A2008DE2B5E2e93239eB2245",
+        "staked": "0.0353"
+      },
+      {
+        "address": "0x5F429C961BF092B207707e0D7CeEaA5703E3fe14",
+        "staked": "0.0359"
+      },
+      {
+        "address": "0xcBAC5e2642Ab3d48DFE40b52388D10C51d9897F1",
+        "staked": "0.036"
+      },
+      {
+        "address": "0x50346B8dB9893465de06845cF0FcB8643EB728D8",
+        "staked": "0.0334"
+      },
+      {
+        "address": "0x8Cb106A7864A875Db91b4B029D327c762734Be4c",
+        "staked": "0.0353"
+      },
+      {
+        "address": "0x24D1FebbdC693E161d5f3b9267504Aab63055C4E",
+        "staked": "0.0123"
+      },
+      {
+        "address": "0xDC4914FAAb102Bcde906e8E9CCD55F23B2A2ad4E",
+        "staked": "0.0132"
+      },
+      {
+        "address": "0xcE47EfD4c91293092A5ccd242F60d98c695E9e2c",
+        "staked": "0.0388"
+      },
+      {
+        "address": "0xB4dB6219b4343B0CEf836aa2C010e9d662B54695",
+        "staked": "0.0492"
+      },
+      {
+        "address": "0x3B4748f2C054FD983afdCB078DfD753081FD30Bb",
+        "staked": "0.0102"
+      },
+      {
+        "address": "0xb80206827AE5eE87F97cD56AFE78f916751498e8",
+        "staked": "0.044"
+      },
+      {
+        "address": "0x038BAf7977D0c1318828a4ad58BC080976f84627",
+        "staked": "0.0362"
+      },
+      {
+        "address": "0x26632f6d0932Cf5095A975b24946D73e9f7fC591",
+        "staked": "0.0228"
+      },
+      {
+        "address": "0x27B5C86Fe01b79B85d5B38fd76E1d60A8AAebAB6",
+        "staked": "0.0359"
+      },
+      {
+        "address": "0x5f413f916c0069Dc24e02c631f1a0d8FFCfA1B47",
+        "staked": "0.0116"
+      },
+      {
+        "address": "0x85b2FFC2614Bf5c09aaAaFd1e454Fd31D8F34fdA",
+        "staked": "0.046"
+      },
+      {
+        "address": "0x7EbF1724cCAdA12bFfaE5ae6c92057d5d1bc26A8",
+        "staked": "0.0322"
+      },
+      {
+        "address": "0xd8Bb484B4E4e7532f67dAEe0439B1C95745d3E37",
+        "staked": "0.0349"
+      },
+      {
+        "address": "0xd2B451613BdF26e6329f2B815206784a1d444c08",
+        "staked": "0.0214"
+      },
+      {
+        "address": "0x90673d7f1970E5bBD2C3a8AcEbfF4EfB150Ec2b3",
+        "staked": "0.0301"
+      },
+      {
+        "address": "0x35C2fb8A6D844C008Ae61454f5139FB660868A3A",
+        "staked": "0.0116"
+      },
+      {
+        "address": "0xA1C969180018F9ce5b6C6A444D23c5A8174f69aF",
+        "staked": "0.0498"
+      },
+      {
+        "address": "0x52d1408038f1673CD7C44c4b5123e1d9eD994c5E",
+        "staked": "0.0213"
+      },
+      {
+        "address": "0x7fd48BDfd06AE293ac364D0dB9eD766eb5b607d6",
+        "staked": "0.0486"
+      },
+      {
+        "address": "0x900bB454C6f507D084E66E9830D8e4Cf2e0759e3",
+        "staked": "0.0341"
+      }
+    ]
+  }
 }
