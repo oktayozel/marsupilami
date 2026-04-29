@@ -54,16 +54,21 @@ export function Market({ address, categoryFilter = "all" }: MarketProps) {
   }
 
   const deadline = new Date(market.bettingDeadline * 1000);
-  const isOpen = market.state === 0 && Date.now() < deadline.getTime();
+  const deadlinePassed = Date.now() >= deadline.getTime();
+  const isOpen = market.state === 0 && !deadlinePassed;
   const isResolved = market.state === 2;
   const hasPosition = position && (parseFloat(position.yesAmount) > 0 || parseFloat(position.noAmount) > 0);
+
+  // Display state: show "Closed" if deadline passed even if contract still says Open
+  const displayState = (market.state === 0 && deadlinePassed) ? 1 : market.state;
+  const displayStateName = STATES[displayState];
 
   return (
     <div className="card market-card">
       <div className="market-header">
         <img
-          src={STATUS_ICONS[market.state]}
-          alt={STATES[market.state]}
+          src={STATUS_ICONS[displayState]}
+          alt={displayStateName}
           className="market-status-icon"
         />
         <div className="market-header-content">
@@ -78,8 +83,8 @@ export function Market({ address, categoryFilter = "all" }: MarketProps) {
       </div>
 
       <div className="market-status">
-        <span className={`status-badge status-${STATES[market.state].toLowerCase()}`}>
-          {STATES[market.state]}
+        <span className={`status-badge status-${displayStateName.toLowerCase()}`}>
+          {displayStateName}
         </span>
         {isResolved && (
           <span className={`outcome-badge outcome-${OUTCOMES[market.outcome].toLowerCase()}`}>
