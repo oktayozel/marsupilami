@@ -227,7 +227,6 @@ header {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-bottom: 1rem;
   padding: 0.75rem;
   background: var(--bg-card);
   border-radius: 10px;
@@ -291,6 +290,47 @@ header {
   white-space: pre-line;
   text-align: center;
   line-height: 1.2;
+}
+
+/* Filters Row */
+.filters-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+/* Status Filters */
+.status-filters {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-card);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.status-btn {
+  padding: 0.5rem 1.25rem;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.status-btn:hover {
+  border-color: var(--accent-gold);
+  color: var(--text-primary);
+}
+
+.status-btn.active {
+  background: var(--accent-gold);
+  border-color: var(--accent-gold);
+  color: var(--bg-primary);
 }
 
 /* Category Badge on Market Card */

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useMarketInfo, useMyPosition, usePlaceBet, useClaim, useDemoState } from "../hooks/useMarket";
 import { parseCategory, CATEGORIES } from "../App";
-import type { CategoryId } from "../App";
+import type { CategoryId, StatusFilter } from "../App";
 import openMarket from "../assets/marsu/open-market.jpeg";
 import closedMarket from "../assets/marsu/closed-market.jpeg";
 import resolvedMarket from "../assets/marsu/resolved-market.jpeg";
@@ -19,9 +19,10 @@ const STATUS_ICONS = [openMarket, closedMarket, resolvedMarket, closedMarket];
 interface MarketProps {
   address: string;
   categoryFilter?: CategoryId;
+  statusFilter?: StatusFilter;
 }
 
-export function Market({ address, categoryFilter = "all" }: MarketProps) {
+export function Market({ address, categoryFilter = "all", statusFilter = "all" }: MarketProps) {
   const { data: market, isLoading, error } = useMarketInfo(address);
   const { data: position } = useMyPosition(address);
   const placeBet = usePlaceBet(address);
@@ -48,11 +49,6 @@ export function Market({ address, categoryFilter = "all" }: MarketProps) {
   const { category, cleanQuestion } = parseCategory(market.question);
   const categoryInfo = CATEGORIES.find(c => c.id === category);
 
-  // Filter by category if not "all"
-  if (categoryFilter !== "all" && category !== categoryFilter) {
-    return null;
-  }
-
   const deadline = new Date(market.bettingDeadline * 1000);
   const deadlinePassed = Date.now() >= deadline.getTime();
   const isOpen = market.state === 0 && !deadlinePassed;
@@ -62,6 +58,19 @@ export function Market({ address, categoryFilter = "all" }: MarketProps) {
   // Display state: show "Closed" if deadline passed even if contract still says Open
   const displayState = (market.state === 0 && deadlinePassed) ? 1 : market.state;
   const displayStateName = STATES[displayState];
+
+  // Filter by category if not "all"
+  if (categoryFilter !== "all" && category !== categoryFilter) {
+    return null;
+  }
+
+  // Filter by status if not "all"
+  if (statusFilter === "open" && !isOpen) {
+    return null;
+  }
+  if (statusFilter === "closed" && isOpen) {
+    return null;
+  }
 
   return (
     <div className="card market-card">

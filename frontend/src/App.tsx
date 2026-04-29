@@ -30,6 +30,14 @@ export const CATEGORIES = [
 
 export type CategoryId = typeof CATEGORIES[number]["id"];
 
+export type StatusFilter = "all" | "open" | "closed";
+
+export const STATUS_FILTERS: { id: StatusFilter; label: string }[] = [
+  { id: "all", label: "All" },
+  { id: "open", label: "Open" },
+  { id: "closed", label: "Closed" },
+];
+
 export function parseCategory(question: string): { category: CategoryId; cleanQuestion: string } {
   const match = question.match(/^\[(\w+)\]\s*/i);
   if (match) {
@@ -45,9 +53,10 @@ export function parseCategory(question: string): { category: CategoryId; cleanQu
 
 interface MarketListProps {
   selectedCategory: CategoryId;
+  selectedStatus: StatusFilter;
 }
 
-function MarketList({ selectedCategory }: MarketListProps) {
+function MarketList({ selectedCategory, selectedStatus }: MarketListProps) {
   const { data: markets, isLoading, error } = useMarkets();
 
   if (isLoading) {
@@ -81,7 +90,7 @@ function MarketList({ selectedCategory }: MarketListProps) {
   return (
     <div className="markets-grid">
       {markets.map((address) => (
-        <Market key={address} address={address} categoryFilter={selectedCategory} />
+        <Market key={address} address={address} categoryFilter={selectedCategory} statusFilter={selectedStatus} />
       ))}
     </div>
   );
@@ -89,22 +98,36 @@ function MarketList({ selectedCategory }: MarketListProps) {
 
 function MarketsTab() {
   const [selectedCategory, setSelectedCategory] = useState<CategoryId>("all");
+  const [selectedStatus, setSelectedStatus] = useState<StatusFilter>("all");
 
   return (
     <div className="markets-tab">
-      <div className="category-filters">
-        {CATEGORIES.map((category) => (
-          <button
-            key={category.id}
-            className={`category-btn ${selectedCategory === category.id ? "active" : ""}`}
-            onClick={() => setSelectedCategory(category.id)}
-            style={{ backgroundImage: `url(${category.icon})` }}
-          >
-            <span className="category-label">{category.label}</span>
-          </button>
-        ))}
+      <div className="filters-row">
+        <div className="category-filters">
+          {CATEGORIES.map((category) => (
+            <button
+              key={category.id}
+              className={`category-btn ${selectedCategory === category.id ? "active" : ""}`}
+              onClick={() => setSelectedCategory(category.id)}
+              style={{ backgroundImage: `url(${category.icon})` }}
+            >
+              <span className="category-label">{category.label}</span>
+            </button>
+          ))}
+        </div>
+        <div className="status-filters">
+          {STATUS_FILTERS.map((status) => (
+            <button
+              key={status.id}
+              className={`status-btn ${selectedStatus === status.id ? "active" : ""}`}
+              onClick={() => setSelectedStatus(status.id)}
+            >
+              {status.label}
+            </button>
+          ))}
+        </div>
       </div>
-      <MarketList selectedCategory={selectedCategory} />
+      <MarketList selectedCategory={selectedCategory} selectedStatus={selectedStatus} />
     </div>
   );
 }
